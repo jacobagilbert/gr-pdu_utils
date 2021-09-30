@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /*
- * Copyright 2018, 2019, 2020 National Technology & Engineering Solutions of Sandia, LLC
+ * Copyright 2018-2021 National Technology & Engineering Solutions of Sandia, LLC
  * (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government
  * retains certain rights in this software.
  *
@@ -20,19 +20,21 @@ namespace pdu_utils {
  * \brief Perform time domain fine burst start time estimate
  * \ingroup pdu_utils
  *
- * Perform time domain fine burst start time estimate.  It considers
- * the pre/post burst times to be noise and the rest of the burst to
- * be signal.  The new start time is when a moving average goes above
- * .5*(Signal + Noise).
+ * Perform time domain fine burst start time estimation. This general operation
+ * of this block is as follows:
  *
- * Pre/post burst time - Extra time pre/appended to a burst, that is
- * presumed to be noise. Average Width - The number of samples used
- * in a moving average to decide the start of burst.
+ * 1. Compute an AM moving-average of the specified width.
  *
- * Buffer Percent - We don't want to include transitions in our
- * Signal/Noise calculations.  Remove this percent of points from
- * consideration. (0 - 100%)
+ * 2. Estimate the nominal magnitude of the peak power of the burst, sampled
+ *    from the specified percentage of the center of the burst; establish a
+ *    threshold as a specified dB down from the average.
  *
+ * 3. Identify the first and last place the burst crosses this threshold and
+ *    consider this, plus some margin, to be the burst boundary.
+ *
+ * This block can also add some margin to the start and end of the PDU that is
+ * emitted, but the duration and start_time metatdata keys indicate the actual
+ * burst measurements.
  */
 class PDU_UTILS_API pdu_fine_time_measure : virtual public gr::block
 {
@@ -42,15 +44,15 @@ public:
     /*!
      * \brief Return a shared_ptr to a new instance of pdu_utils::pdu_fine_time_measure.
      *
-     * @param pre_burst_time - Unit: sec
-     * @param post_burst_time - Unit: sec
-     * @param average_width -
-     * @param buffer_percent - Range[0..100]
+     * @param pre_burst_time - amount of extra time to add to front of burst
+     * @param post_burst_time - amount of extra time to add to end of burst
+     * @param average_width - moving average width in samples
+     * @param threshold_db - threshold (dB down from burst mean power)
      */
     static sptr make(float pre_burst_time,
                      float post_burst_time,
                      size_t average_width,
-                     float buffer_percent);
+                     float threshold_db);
 };
 
 } // namespace pdu_utils

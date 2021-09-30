@@ -17,10 +17,10 @@ parameters:
     label: Moving Average Width
     dtype: int
     default: '20'
--   id: buffer_percent
-    label: Buffer Percent
+-   id: threshold_db
+    label: Threshold (dB)
     dtype: float
-    default: '10'
+    default: '4'
 
 inputs:
 -   domain: message
@@ -31,9 +31,13 @@ outputs:
 -   domain: message
     id: pdu_out
     optional: true
+-   domain: message
+    id: debug
+    optional: true
+
 asserts:
-- ${ buffer_percent >= 0 }
-- ${ buffer_percent < 100 }
+- ${ threshold_db >= 1 }
+- ${ threshold_db < 20 }
 - ${ average_width > 0 }
 - ${ pre_burst_time > 0 }
 - ${ post_burst_time > 0 }
@@ -41,6 +45,6 @@ asserts:
 templates:
     imports: import pdu_utils
     make: pdu_utils.pdu_fine_time_measure(${pre_burst_time}, ${post_burst_time}, ${average_width},
-        ${buffer_percent})
+        ${threshold_db})
 
 file_format: 1

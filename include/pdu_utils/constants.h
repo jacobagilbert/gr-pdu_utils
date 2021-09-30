@@ -1,6 +1,6 @@
 /* -*- c++ -*- */
 /*
- * Copyright 2018, 2019, 2020 National Technology & Engineering Solutions of Sandia, LLC
+ * Copyright 2018-2021 National Technology & Engineering Solutions of Sandia, LLC
  * (NTESS). Under the terms of Contract DE-NA0003525 with NTESS, the U.S. Government
  * retains certain rights in this software.
  *
@@ -88,6 +88,9 @@ PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__set_armed();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__trigger_now();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__system();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__phase_inc();
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__start_offset();
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__end_offset();
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__input_rate();
 
 static const uint32_t MODE_MESSAGE = 0;
 static const uint32_t MODE_TIMED_PDU = 1;
