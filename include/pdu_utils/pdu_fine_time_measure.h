@@ -20,7 +20,21 @@ namespace pdu_utils {
  * \brief Perform time domain fine burst start time estimate
  * \ingroup pdu_utils
  *
- * Perform time domain fine burst start time estimate.  It considers
+ * Perform time domain fine burst start time estimation. This general operation
+ * of this block is as follows:
+ *
+ * 1. Compute an AM moving-average of the specified width.
+ *
+ * 2. Estimate the nominal magnitude of the peak power of the burst, sampled
+ *    from the specified percentage of the center of the burst; establish a
+ *    threshold as a specified percentage of this magnitude.
+ *
+ * 3. Identify the first and last place the burst crosses this threshold and 
+ *    consider this, plus some margin, to be the boundary.
+ 
+ ....TODO....
+ 
+ *It considers
  * the pre/post burst times to be noise and the rest of the burst to
  * be signal.  The new start time is when a moving average goes above
  * .5*(Signal + Noise).

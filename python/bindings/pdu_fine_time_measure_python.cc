@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(pdu_fine_time_measure.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(91311968006041973162b01ff18cf366)                     */
+/* BINDTOOL_HEADER_FILE(pdu_fine_time_measure.h)                                   */
+/* BINDTOOL_HEADER_FILE_HASH(1af768b1bf6f8296aa598c81fde0b4ab)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>

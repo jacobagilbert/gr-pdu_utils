@@ -31,6 +31,10 @@ outputs:
 -   domain: message
     id: pdu_out
     optional: true
+-   domain: message
+    id: debug
+    optional: true
+
 asserts:
 - ${ buffer_percent >= 0 }
 - ${ buffer_percent < 100 }

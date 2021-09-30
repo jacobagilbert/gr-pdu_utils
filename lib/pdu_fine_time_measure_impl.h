@@ -19,10 +19,13 @@ class pdu_fine_time_measure_impl : public pdu_fine_time_measure
 {
 private:
     std::vector<float> d_magnitude_squared_f;
+    std::vector<float> d_mag_avg;
     float d_pre_burst_time;
     float d_post_burst_time;
     size_t d_average_size;
     float d_buffer_percent;
+    size_t d_min_burst_length;
+    bool d_pub_debug;
 
     void pdu_handler(pmt::pmt_t pdu);
 
@@ -33,6 +36,7 @@ public:
                                float buffer_percent);
 
     ~pdu_fine_time_measure_impl() override;
+    bool start() override;
 };
 
 } // namespace pdu_utils

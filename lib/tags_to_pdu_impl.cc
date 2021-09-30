@@ -172,6 +172,7 @@ void tags_to_pdu_impl<T>::publish_message()
     pmt::pmt_t time_tuple =
         pmt::make_tuple(pmt::from_uint64(int_seconds), pmt::from_double(frac_seconds));
     d_meta_dict = pmt::dict_add(d_meta_dict, PMTCONSTSTR__burst_time(), time_tuple);
+    d_meta_dict = pmt::dict_add(d_meta_dict, PMTCONSTSTR__sample_rate(), pmt::from_double(d_samp_rate));
     d_meta_dict = pmt::dict_add(
         d_meta_dict,
         PMTCONSTSTR__time_type(),
