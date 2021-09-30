@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(constants.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(8ee428aeedc4a58fdd408c07d4128467)                     */
+/* BINDTOOL_HEADER_FILE(constants.h)                                               */
+/* BINDTOOL_HEADER_FILE_HASH(f341ccc6c1d48bc8b7776ffca23c20e8)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -317,4 +317,19 @@ void bind_constants(py::module& m)
     m.def("PMTCONSTSTR__phase_inc",
           &::gr::pdu_utils::PMTCONSTSTR__phase_inc,
           D(PMTCONSTSTR__phase_inc));
+
+
+    m.def("PMTCONSTSTR__start_offset",
+          &::gr::pdu_utils::PMTCONSTSTR__start_offset,
+          D(PMTCONSTSTR__start_offset));
+
+
+    m.def("PMTCONSTSTR__end_offset",
+          &::gr::pdu_utils::PMTCONSTSTR__end_offset,
+          D(PMTCONSTSTR__end_offset));
+
+
+    m.def("PMTCONSTSTR__input_rate",
+          &::gr::pdu_utils::PMTCONSTSTR__input_rate,
+          D(PMTCONSTSTR__input_rate));
 }

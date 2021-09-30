@@ -274,6 +274,21 @@ const pmt::pmt_t PMTCONSTSTR__phase_inc()
     static const pmt::pmt_t val = pmt::mp("phase_inc");
     return val;
 }
+const pmt::pmt_t PMTCONSTSTR__start_offset()
+{
+    static const pmt::pmt_t val = pmt::mp("start_offset");
+    return val;
+}
+const pmt::pmt_t PMTCONSTSTR__end_offset()
+{
+    static const pmt::pmt_t val = pmt::mp("end_offset");
+    return val;
+}
+const pmt::pmt_t PMTCONSTSTR__input_rate()
+{
+    static const pmt::pmt_t val = pmt::mp("input_rate");
+    return val;
+}
 
 
 } /* namespace pdu_utils */

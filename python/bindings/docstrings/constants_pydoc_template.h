@@ -166,3 +166,12 @@ static const char* __doc_gr_pdu_utils_PMTCONSTSTR__system = R"doc()doc";
 
 
 static const char* __doc_gr_pdu_utils_PMTCONSTSTR__phase_inc = R"doc()doc";
+
+
+static const char* __doc_gr_pdu_utils_PMTCONSTSTR__start_offset = R"doc()doc";
+
+
+static const char* __doc_gr_pdu_utils_PMTCONSTSTR__end_offset = R"doc()doc";
+
+
+static const char* __doc_gr_pdu_utils_PMTCONSTSTR__input_rate = R"doc()doc";

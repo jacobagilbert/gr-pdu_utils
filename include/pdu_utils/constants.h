@@ -84,7 +84,9 @@ PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__set_armed();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__trigger_now();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__system();
 PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__phase_inc();
-
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__start_offset();
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__end_offset();
+PDU_UTILS_API const pmt::pmt_t PMTCONSTSTR__input_rate();
 
 enum message_trigger_mode : uint64_t { TX_UNLIMITED = 0xFFFFFFFFFFFFFFFF, TX_OFF = 0 };
 
