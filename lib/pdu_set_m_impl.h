@@ -41,7 +41,7 @@ public:
      * Deconstructor
      */
     ~pdu_set_m_impl() override;
-    void setup_rpc(); // enable controlport
+    void setup_rpc() override; // enable controlport
 
     void handle_msg(pmt::pmt_t msg);
     void handle_ctrl_msg(pmt::pmt_t msg);
@@ -51,28 +51,28 @@ public:
      *
      * @return pmt::pmt_t
      */
-    pmt::pmt_t key() { return d_k; }
+    pmt::pmt_t key() override { return d_k; }
 
     /**
      * Get Val value
      *
      * @return pmt::pmt_t
      */
-    pmt::pmt_t val() { return d_v; }
+    pmt::pmt_t val() override { return d_v; }
 
     /**
      * Set Key Value
      *
      * @param k - key value
      */
-    void set_key(pmt::pmt_t k);
+    void set_key(pmt::pmt_t k) override;
 
     /**
      * Set Val Value
      *
      * @param v - value
      */
-    void set_val(pmt::pmt_t v);
+    void set_val(pmt::pmt_t v) override;
 
     /**
      * Set K-V pair
@@ -80,21 +80,21 @@ public:
      * @param k - key
      * @param v - val
      */
-    void set_kv(pmt::pmt_t k, pmt::pmt_t v);
+    void set_kv(pmt::pmt_t k, pmt::pmt_t v) override;
 
     /**
      * Set Merge Value
      *
      * @param kv_merge - merge boolean
      */
-    void set_kv_merge(bool kv_merge);
+    void set_kv_merge(bool kv_merge) override;
 
     /**
      * Set Overwrite Value
      *
      * @param v_overwrite - overwrite boolean
      */
-    void set_v_overwrite(bool v_overwrite);
+    void set_v_overwrite(bool v_overwrite) override;
 
     /**
      * Set Parsed Val
@@ -102,7 +102,7 @@ public:
      * @param meta - metadata
      * @param v - value to parse
      */
-    pmt::pmt_t parse_val(pmt::pmt_t dict);
+    pmt::pmt_t parse_val(pmt::pmt_t dict) override;
 
 
 };

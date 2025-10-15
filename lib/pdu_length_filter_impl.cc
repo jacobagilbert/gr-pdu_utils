@@ -13,6 +13,8 @@
 
 #include "pdu_length_filter_impl.h"
 #include <gnuradio/io_signature.h>
+#include <fmt/format.h>
+#include "pmt_formatters.h"
 
 namespace gr {
 namespace pdu_utils {
@@ -42,7 +44,12 @@ pdu_length_filter_impl::pdu_length_filter_impl(uint32_t length, bool drop_long)
 /*
  * Our virtual destructor.
  */
-pdu_length_filter_impl::~pdu_length_filter_impl() {}
+pdu_length_filter_impl::~pdu_length_filter_impl() 
+{
+    GR_LOG_INFO(d_logger, 
+                fmt::format("PDU length filter blocked {} and passed {} PDUs", 
+                           d_n_blocked, d_n_passed));
+}
 
 
 /*
@@ -51,8 +58,8 @@ pdu_length_filter_impl::~pdu_length_filter_impl() {}
 bool pdu_length_filter_impl::stop()
 {
     GR_LOG_INFO(d_logger,
-                boost::format("PDU length filter blocked %d and passed %d PDUs") %
-                    d_n_blocked % d_n_passed);
+                fmt::format("PDU length filter blocked {} and passed {} PDUs", 
+                           d_n_blocked, d_n_passed));
     return true;
 }
 

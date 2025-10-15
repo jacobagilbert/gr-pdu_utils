@@ -15,6 +15,7 @@
 #include <gnuradio/pdu_utils/pdu_set_m.h>
 #include <gnuradio/io_signature.h>
 #include <algorithm>
+#include <fmt/format.h>  // Add fmt header
 
 namespace gr {
 namespace pdu_utils {
@@ -71,18 +72,18 @@ void pdu_set_m_impl::handle_ctrl_msg(pmt::pmt_t msg)
 
     if (pmt::is_pair(msg)) {
         if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__val())) {
-            GR_LOG_NOTICE(d_logger, boost::format("value is %1%") % val());
+            GR_LOG_NOTICE(d_logger, fmt::format("value is {}", pmt::write_string(val())));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__key())) {
-            GR_LOG_NOTICE(d_logger, boost::format("key is %1%") % key());
+            GR_LOG_NOTICE(d_logger, fmt::format("key is {}", pmt::write_string(key())));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__set_val())) {
             set_val(pmt::cdr(msg));
-            GR_LOG_NOTICE(d_logger, boost::format("value set to %1%") % val());
+            GR_LOG_NOTICE(d_logger, fmt::format("value set to {}", pmt::write_string(val())));
         } else if (pmt::eqv(pmt::car(msg), PMTCONSTSTR__set_key())) {
             set_key(pmt::cdr(msg));
-            GR_LOG_DEBUG(d_logger, boost::format("key set to %1%") % key());
+            GR_LOG_DEBUG(d_logger, fmt::format("key set to {}", pmt::write_string(key())));
         } else {
             GR_LOG_WARN(d_logger,
-                        boost::format("invalid command %1% received...") % pmt::car(msg));
+                        fmt::format("invalid command {} received...", pmt::write_string(pmt::car(msg))));
         }
     } else {
         GR_LOG_WARN(d_logger, "received unexpected PMT command (non-pair)");
@@ -175,7 +176,7 @@ pmt::pmt_t pdu_set_m_impl::parse_val(pmt::pmt_t dict)
         } else if (pmt::is_symbol(refval)) {
             out_val += pmt::symbol_to_string(refval);
         } else {
-            GR_LOG_WARN(d_logger, boost::format("value type of %1% not supported") % tmp);
+            GR_LOG_WARN(d_logger, fmt::format("value type of {} not supported", tmp));
             out_val += tmp;
         }
     }

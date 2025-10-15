@@ -13,6 +13,7 @@
 
 #include "message_counter_impl.h"
 #include <gnuradio/io_signature.h>
+#include <fmt/format.h>  // Add fmt header
 
 namespace gr {
 namespace pdu_utils {
@@ -51,14 +52,8 @@ message_counter_impl::~message_counter_impl() {}
  */
 bool message_counter_impl::stop()
 {
-#ifdef ENABLE_GR_LOG
     GR_LOG_INFO(d_logger,
-                boost::format("Message Counter '%s' got %d messages") % d_name % d_ctr);
-#else
-    std::cout << alias() << " :INFO: Message counter " << d_name << " got " << d_ctr
-              << " messages" << std::endl;
-#endif
-
+               fmt::format("Message Counter '{}' got {} messages", d_name, d_ctr));
     return true;
 }
 

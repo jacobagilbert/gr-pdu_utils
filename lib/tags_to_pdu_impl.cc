@@ -13,6 +13,7 @@
 
 #include "tags_to_pdu_impl.h"
 #include <gnuradio/io_signature.h>
+#include <fmt/format.h>  // Add fmt header
 
 namespace gr {
 namespace pdu_utils {
@@ -71,10 +72,9 @@ tags_to_pdu_impl<T>::tags_to_pdu_impl(pmt::pmt_t start_tag,
     set_start_time(start_time);
     set_eob_parameters(1, 0);
     GR_LOG_NOTICE(this->d_logger,
-                  boost::format("starting at time {%d %f}") % d_known_time_int_sec %
-                      d_known_time_frac_sec);
+                  fmt::format("starting at time {{{}% {}}}", d_known_time_int_sec, d_known_time_frac_sec));
 
-    GR_LOG_NOTICE(this->d_logger, boost::format("rate %0.12f") % d_samp_rate);
+    GR_LOG_NOTICE(this->d_logger, fmt::format("rate {:.12f}", d_samp_rate));
 
     // store the data to prepend
     // d_prepend.clear();
@@ -123,8 +123,7 @@ void tags_to_pdu_impl<T>::handle_ctrl_msg(pmt::pmt_t ctrl_msg)
         set_eob_parameters(d_eob_alignment, new_eob_offset);
         GR_LOG_NOTICE(
             this->d_logger,
-            boost::format("command received - set EOB tag offset to %d symbols") %
-                d_eob_offset);
+            fmt::format("command received - set EOB tag offset to {} symbols", d_eob_offset));
     }
 
     // check dict for EOB alignment command
@@ -135,13 +134,11 @@ void tags_to_pdu_impl<T>::handle_ctrl_msg(pmt::pmt_t ctrl_msg)
             set_eob_parameters(new_eob_alignment, d_eob_offset);
             GR_LOG_NOTICE(
                 this->d_logger,
-                boost::format("command received - set EOB tag alignment to %d symbols") %
-                    d_eob_alignment);
+                fmt::format("command received - set EOB tag alignment to {} symbols", d_eob_alignment));
         } else {
             GR_LOG_ERROR(this->d_logger,
-                         boost::format("command received - illegal value %d for EOB "
-                                       "alignment, not setting") %
-                             new_eob_alignment);
+                         fmt::format("command received - illegal value {} for EOB "
+                                     "alignment, not setting", new_eob_alignment));
         }
     }
 
@@ -274,9 +271,9 @@ int tags_to_pdu_impl<T>::work(int noutput_items,
                 // if we have received a second SOB tag, reset and dump previous data
             } else if (d_tag_type == SOB) {
                 GR_LOG_ERROR(this->d_logger,
-                             boost::format("SOB tag received during burst %d at offset "
-                                           "%d, previous burst dropped (%d tags total)") %
-                                 d_burst_counter % d_tag.offset % d_tags.size());
+                             fmt::format("SOB tag received during burst {} at offset "
+                                         "{}, previous burst dropped ({} tags total)", 
+                                         d_burst_counter, d_tag.offset, d_tags.size()));
 
                 // prepare for next burst
                 d_burst_counter++;
@@ -324,8 +321,7 @@ int tags_to_pdu_impl<T>::work(int noutput_items,
             // receiving an EOB sequence while not triggered is just random chance. No
             // warning necessary...
             GR_LOG_INFO(this->d_logger,
-                        boost::format("received unexpected EOB at offset %d") %
-                            d_tag.offset);
+                        fmt::format("received unexpected EOB at offset {}", d_tag.offset));
 
         } else {
             // do nothing

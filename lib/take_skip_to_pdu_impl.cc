@@ -13,7 +13,8 @@
 
 #include "take_skip_to_pdu_impl.h"
 #include <gnuradio/io_signature.h>
-//#include <pmt/pmt.h>
+#include <fmt/format.h>
+#include "pmt_formatters.h"
 
 namespace gr {
 namespace pdu_utils {
@@ -46,8 +47,8 @@ take_skip_to_pdu_impl<T>::take_skip_to_pdu_impl(uint32_t take, uint32_t skip)
     }
     if (d_take > TAKESKIP_MAXIMUM_PDU_SIZE) {
         GR_LOG_FATAL(this->d_logger,
-                     boost::format("TAKE value too large, must be less than %d") %
-                         TAKESKIP_MAXIMUM_PDU_SIZE);
+                     fmt::format("TAKE value too large, must be less than {}", 
+                          TAKESKIP_MAXIMUM_PDU_SIZE));
         throw std::invalid_argument("TAKE value out of bounds");
     }
 

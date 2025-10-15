@@ -16,6 +16,7 @@
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp>
+#include <fmt/format.h>  // Add fmt header
 
 namespace gr {
 namespace pdu_utils {
@@ -122,8 +123,8 @@ void pdu_to_bursts_impl<T>::store_pdu(pmt::pmt_t pdu)
         size_t v_itemsize = pmt::uniform_vector_itemsize(v_data);
         if (v_itemsize != d_itemsize) {
             GR_LOG_ERROR(this->d_logger,
-                         boost::format("PDU received has incorrect itemsize (%d != %d)") %
-                             v_itemsize % d_itemsize);
+                         fmt::format("PDU received has incorrect itemsize ({} != {})", 
+                                     v_itemsize, d_itemsize));
             return;
         }
 
@@ -134,8 +135,8 @@ void pdu_to_bursts_impl<T>::store_pdu(pmt::pmt_t pdu)
         } else {
             d_drop_ctr++;
             GR_LOG_WARN(this->d_logger,
-                        boost::format("Queue full, PDU dropped (%d dropped so far)") %
-                            d_drop_ctr);
+                        fmt::format("Queue full, PDU dropped ({} dropped so far)",
+                                    d_drop_ctr));
         }
         // std::cout << "Now there are " << d_pdu_queue.size() << " items in the PDU
         // queue" << std::endl;

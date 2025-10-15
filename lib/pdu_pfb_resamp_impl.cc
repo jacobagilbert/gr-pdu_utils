@@ -15,6 +15,7 @@
 #include "pdu_pfb_resamp_impl.h"
 #include <gnuradio/io_signature.h>
 #include <volk/volk.h>
+#include <fmt/format.h>  // Add fmt header
 
 namespace gr {
 namespace pdu_utils {
@@ -47,9 +48,7 @@ pdu_pfb_resamp_impl<T, S>::pdu_pfb_resamp_impl(const std::vector<S> taps,
     d_out = NULL;
     d_input_size = 0;
 
-    // GR_LOG_DEBUG(this->d_logger,
-    //   boost::format("started pdu pfb resampler with %d taps") %
-    //   int(d_taps.size()));
+    // fmt::format("started pdu pfb resampler with {} taps", d_taps.size())
 
     this->message_port_register_in(PMTCONSTSTR__pdu_in());
     this->set_msg_handler(PMTCONSTSTR__pdu_in(),

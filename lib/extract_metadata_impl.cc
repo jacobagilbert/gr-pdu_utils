@@ -13,6 +13,8 @@
 
 #include "extract_metadata_impl.h"
 #include <gnuradio/io_signature.h>
+#include <fmt/format.h>  // Add fmt header
+#include "pmt_formatters.h"  // Add PMT formatter
 
 namespace gr {
 namespace pdu_utils {
@@ -85,25 +87,19 @@ void extract_metadata_impl::handle_msg(pmt::pmt_t msg)
                     value = pmt::from_uint64(
                         uint64_t(pmt::to_uint64(value) * d_scale + d_offset));
                 } catch (const pmt::wrong_type& e) {
-                    GR_LOG_ERROR(d_logger,
-                                 boost::format("something went wrong getting uint64") %
-                                     value);
+                    GR_LOG_ERROR(d_logger, fmt::format("something went wrong getting uint64"));
                 }
             } else if (pmt::is_integer(value)) {
                 try {
                     value =
                         pmt::from_long(long(pmt::to_long(value) * d_scale + d_offset));
                 } catch (const pmt::wrong_type& e) {
-                    GR_LOG_ERROR(d_logger,
-                                 boost::format("something went wrong getting long") %
-                                     value);
+                    GR_LOG_ERROR(d_logger, fmt::format("something went wrong getting long"));
                 }
             } else if (pmt::is_complex(value)) {
                 ;
             } else {
-                GR_LOG_ERROR(
-                    d_logger,
-                    boost::format("got a number...but not an int, real, complex"));
+                GR_LOG_ERROR(d_logger, fmt::format("got a number...but not an int, real, complex"));
             }
         }
 
