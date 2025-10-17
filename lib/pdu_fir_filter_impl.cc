@@ -57,7 +57,7 @@ void pdu_fir_filter_impl::handle_pdu(pmt::pmt_t pdu)
 
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -65,7 +65,7 @@ void pdu_fir_filter_impl::handle_pdu(pmt::pmt_t pdu)
     pmt::pmt_t pdu_data = pmt::cdr(pdu);
 
     if (!pmt::is_dict(metadata)) {
-        GR_LOG_WARN(d_logger, "PDU metadata is not a dict, dropping");
+        d_logger->warn("PDU metadata is not a dict, dropping");
         return;
     }
 
@@ -177,7 +177,7 @@ void pdu_fir_filter_impl::handle_pdu(pmt::pmt_t pdu)
             (pmt::cons(metadata,
                        pmt::init_u8vector(d_out_byte.size(), d_out_byte.data()))));
     } else {
-        GR_LOG_WARN(d_logger, "PMT is not a byte, float, or complex PDU, dropping");
+        d_logger->warn("PMT is not a byte, float, or complex PDU, dropping");
         return;
     }
 }
@@ -196,9 +196,8 @@ void pdu_fir_filter_impl::set_taps(std::vector<float> taps)
     } else {
         d_group_delay_offset = (tap_len) / 2;
         d_even_num_taps = true;
-        GR_LOG_WARN(d_logger,
-                    "PERFORMANCE IMPACT: Even number of taps requires inefficient manual "
-                    "adjustiment of burst time");
+        d_logger->warn("PERFORMANCE IMPACT: Even number of taps requires inefficient manual "
+                      "adjustiment of burst time");
     }
 }
 

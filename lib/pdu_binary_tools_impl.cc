@@ -45,51 +45,51 @@ pdu_binary_tools_impl::pdu_binary_tools_impl(uint8_t mode)
     // bit flip mode
     switch (mode) {
     case pdu_binary_tools::BIT_FLIP: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in BIT FLIP mode");
+        d_logger->debug("pdu binary tools in BIT FLIP mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_bit_flip(msg); });
         break;
     }
     case pdu_binary_tools::TO_NRZ: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in TO NRZ mode");
+        d_logger->debug("pdu binary tools in TO NRZ mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_to_nrz(msg); });
         break;
     }
     case pdu_binary_tools::FROM_NRZ: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in FROM NRZ mode");
+        d_logger->debug("pdu binary tools in FROM NRZ mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_from_nrz(msg); });
         break;
     }
     case pdu_binary_tools::SLICE: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in SLICE mode");
+        d_logger->debug("pdu binary tools in SLICE mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_slice(msg); });
         break;
     }
     case pdu_binary_tools::ENDIAN_SWAP8: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in ENDIAN_SWAP8 mode");
+        d_logger->debug("pdu binary tools in ENDIAN_SWAP8 mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_endian8(msg); });
         break;
     }
     case pdu_binary_tools::MANCHESTER_ENCODE: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in MANCHESTER_ENCODE mode");
+        d_logger->debug("pdu binary tools in MANCHESTER_ENCODE mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(), [this](pmt::pmt_t msg) {
             this->handle_msg_manchester_encode(msg);
         });
         break;
     }
     case pdu_binary_tools::MANCHESTER_DECODE: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in MANCHESTER_DECODE mode");
+        d_logger->debug("pdu binary tools in MANCHESTER_DECODE mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(), [this](pmt::pmt_t msg) {
             this->handle_msg_manchester_decode(msg);
         });
         break;
     }
     default: {
-        GR_LOG_DEBUG(d_logger, "pdu binary tools in PASSTHROUGH mode");
+        d_logger->debug("pdu binary tools in PASSTHROUGH mode");
         set_msg_handler(PMTCONSTSTR__pdu_in(),
                         [this](pmt::pmt_t msg) { this->handle_msg_passthrough(msg); });
     }
@@ -113,7 +113,7 @@ void pdu_binary_tools_impl::handle_msg_bit_flip(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -133,7 +133,7 @@ void pdu_binary_tools_impl::handle_msg_bit_flip(pmt::pmt_t pdu)
         message_port_pub(PMTCONSTSTR__pdu_out(),
                          (pmt::cons(meta, pmt::init_u8vector(data.size(), data))));
     } else {
-        GR_LOG_WARN(d_logger, "Failed to bit flip the data because it is not a u8vector");
+        d_logger->warn("Failed to bit flip the data because it is not a u8vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }
@@ -146,7 +146,7 @@ void pdu_binary_tools_impl::handle_msg_to_nrz(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -169,7 +169,7 @@ void pdu_binary_tools_impl::handle_msg_to_nrz(pmt::pmt_t pdu)
             PMTCONSTSTR__pdu_out(),
             (pmt::cons(meta, pmt::init_f32vector(out_data.size(), out_data))));
     } else {
-        GR_LOG_WARN(d_logger, "Failed to 'to nrz' the data because it is not a u8vector");
+        d_logger->warn("Failed to 'to nrz' the data because it is not a u8vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }
@@ -182,7 +182,7 @@ void pdu_binary_tools_impl::handle_msg_from_nrz(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -205,8 +205,7 @@ void pdu_binary_tools_impl::handle_msg_from_nrz(pmt::pmt_t pdu)
             PMTCONSTSTR__pdu_out(),
             (pmt::cons(meta, pmt::init_u8vector(out_data.size(), out_data))));
     } else {
-        GR_LOG_WARN(d_logger,
-                    "Failed to 'from nrz' the data because it is not a f32 vector");
+        d_logger->warn("Failed to 'from nrz' the data because it is not a f32 vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }
@@ -219,7 +218,7 @@ void pdu_binary_tools_impl::handle_msg_slice(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -242,7 +241,7 @@ void pdu_binary_tools_impl::handle_msg_slice(pmt::pmt_t pdu)
             PMTCONSTSTR__pdu_out(),
             (pmt::cons(meta, pmt::init_u8vector(out_data.size(), out_data))));
     } else {
-        GR_LOG_WARN(d_logger, "Failed to 'slice' the data because it is not a f32vector");
+        d_logger->warn("Failed to 'slice' the data because it is not a f32vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }
@@ -254,7 +253,7 @@ void pdu_binary_tools_impl::handle_msg_endian8(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -279,8 +278,7 @@ void pdu_binary_tools_impl::handle_msg_endian8(pmt::pmt_t pdu)
             PMTCONSTSTR__pdu_out(),
             (pmt::cons(meta, pmt::init_u8vector(out_data.size(), out_data))));
     } else {
-        GR_LOG_WARN(d_logger,
-                    "Failed to endian-swap the data because it is not a u8vector");
+        d_logger->warn("Failed to endian-swap the data because it is not a u8vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }
@@ -295,7 +293,7 @@ void pdu_binary_tools_impl::handle_msg_manchester_decode(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -335,8 +333,7 @@ void pdu_binary_tools_impl::handle_msg_manchester_decode(pmt::pmt_t pdu)
             (pmt::cons(meta, pmt::init_f32vector(out_data.size(), out_data))));
 
     } else {
-        GR_LOG_WARN(
-            d_logger,
+        d_logger->warn(
             "Failed to manchester decode the data because it is not a u8vector or float");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
@@ -351,7 +348,7 @@ void pdu_binary_tools_impl::handle_msg_manchester_encode(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -397,8 +394,7 @@ void pdu_binary_tools_impl::handle_msg_manchester_encode(pmt::pmt_t pdu)
             (pmt::cons(meta, pmt::init_f32vector(out_data.size(), out_data))));
 
     } else {
-        GR_LOG_WARN(d_logger,
-                    "Failed to endian-swap the data because it is not a u8vector");
+        d_logger->warn("Failed to endian-swap the data because it is not a u8vector");
         message_port_pub(PMTCONSTSTR__pdu_out(), pdu);
     }
 }

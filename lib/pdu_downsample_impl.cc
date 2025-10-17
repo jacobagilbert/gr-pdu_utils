@@ -50,7 +50,7 @@ void pdu_downsample_impl::handle_msg(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -88,7 +88,7 @@ void pdu_downsample_impl::handle_msg(pmt::pmt_t pdu)
     }
     // give up
     else {
-        GR_LOG_NOTICE(d_logger, "pdu downsample block can't handle this datatype");
+        d_logger->info("pdu downsample block can't handle this datatype");
     }
 }
 

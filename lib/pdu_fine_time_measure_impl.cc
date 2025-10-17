@@ -57,7 +57,7 @@ pdu_fine_time_measure_impl::~pdu_fine_time_measure_impl() {}
 void pdu_fine_time_measure_impl::pdu_handler(pmt::pmt_t pdu)
 {
     if (!pmt::is_pair(pdu)) {
-        GR_LOG_WARN(d_logger, "PDU not a pair, dropping");
+        d_logger->warn("PDU not a pair, dropping");
         return;
     }
 
@@ -65,12 +65,12 @@ void pdu_fine_time_measure_impl::pdu_handler(pmt::pmt_t pdu)
     pmt::pmt_t data = pmt::cdr(pdu);
 
     if (!pmt::is_dict(metadata)) {
-        GR_LOG_WARN(d_logger, "PDU metadata not a dictionary, dropping");
+        d_logger->warn("PDU metadata not a dictionary, dropping");
         return;
     }
 
     if (!pmt::is_c32vector(data)) {
-        GR_LOG_WARN(d_logger, "PDU data not complex, dropping");
+        d_logger->warn("PDU data not complex, dropping");
         return;
     }
     /*pmt::pmt_t time_pmt = pmt::dict_ref(metadata, PMTCONSTSTR__start_time(),

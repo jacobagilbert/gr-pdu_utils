@@ -53,7 +53,7 @@ void pdu_add_noise_impl::handle_msg(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -108,7 +108,7 @@ void pdu_add_noise_impl::handle_msg(pmt::pmt_t pdu)
                          (pmt::cons(meta, pmt::init_c32vector(v_len, out))));
 
     } else {
-        GR_LOG_WARN(d_logger, "unsupported PDU type received");
+        d_logger->warn("unsupported PDU type received");
     }
 }
 

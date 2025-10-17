@@ -66,7 +66,7 @@ void pdu_logger_impl::handle_pdu(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pdu(pdu))) {
-        GR_LOG_NOTICE(d_logger, "Received non PDU type message. Dropping");
+        d_logger->info("Received non PDU type message. Dropping");
         return;
     }
 
@@ -83,7 +83,7 @@ void pdu_logger_impl::handle_pdu(pmt::pmt_t pdu)
         const char* burst = (const char*)pmt::u8vector_elements(samples, N);
         write_data_u8(burst, N, (char*)"u8", d_filenum);
     } else {
-        GR_LOG_NOTICE(d_logger, "Received PDU of unhandled data type (C32, F32, U8 supported). Dropping.");
+        d_logger->info("Received PDU of unhandled data type (C32, F32, U8 supported). Dropping.");
         return;
     }
     if (++d_burstnum == d_pdus_per_file) {

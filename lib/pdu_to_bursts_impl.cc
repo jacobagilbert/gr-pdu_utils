@@ -16,7 +16,7 @@
 
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp>
-#include <fmt/format.h>  // Add fmt header
+
 
 namespace gr {
 namespace pdu_utils {
@@ -99,15 +99,14 @@ void pdu_to_bursts_impl<T>::store_pdu(pmt::pmt_t pdu)
     // check and see if there is already data in the vector, drop if in drop mode
     if (d_drop_early_bursts & (d_data.size() | d_pdu_queue.size())) {
         if (d_early_burst_err) {
-            GR_LOG_ERROR(this->d_logger,
-                         "PDU received before previous burst finished writing - dropped");
+            this->d_logger->error("PDU received before previous burst finished writing - dropped");
         }
         return;
     }
 
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_ERROR(this->d_logger, "received unexpected PMT (non-pair)");
+        this->d_logger->error("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -115,16 +114,15 @@ void pdu_to_bursts_impl<T>::store_pdu(pmt::pmt_t pdu)
     pmt::pmt_t v_data = pmt::cdr(pdu);
 
     if (!(is_dict(meta) && pmt::is_uniform_vector(v_data))) {
-        GR_LOG_ERROR(this->d_logger, "PMT is not a PDU, dropping");
+        this->d_logger->error("PMT is not a PDU, dropping");
         return;
     }
 
     if (pmt::length(v_data) != 0) {
         size_t v_itemsize = pmt::uniform_vector_itemsize(v_data);
         if (v_itemsize != d_itemsize) {
-            GR_LOG_ERROR(this->d_logger,
-                         fmt::format("PDU received has incorrect itemsize ({} != {})", 
-                                     v_itemsize, d_itemsize));
+            this->d_logger->error("PDU received has incorrect itemsize ({} != {})", 
+                                 v_itemsize, d_itemsize);
             return;
         }
 
@@ -134,14 +132,13 @@ void pdu_to_bursts_impl<T>::store_pdu(pmt::pmt_t pdu)
             d_drop_ctr = 0;
         } else {
             d_drop_ctr++;
-            GR_LOG_WARN(this->d_logger,
-                        fmt::format("Queue full, PDU dropped ({} dropped so far)",
-                                    d_drop_ctr));
+            this->d_logger->warn("Queue full, PDU dropped ({} dropped so far)",
+                                d_drop_ctr);
         }
         // std::cout << "Now there are " << d_pdu_queue.size() << " items in the PDU
         // queue" << std::endl;
     } else {
-        GR_LOG_WARN(this->d_logger, "zero size PDU ignored");
+        this->d_logger->warn("zero size PDU ignored");
     }
 
     return;

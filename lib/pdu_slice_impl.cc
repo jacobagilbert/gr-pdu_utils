@@ -89,7 +89,7 @@ void pdu_slice_impl::handle_pdu(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -139,7 +139,7 @@ void pdu_slice_impl::handle_pdu(pmt::pmt_t pdu)
             (pmt::cons(meta, pmt::init_c32vector(out_data.size(), out_data))));
     }
     else {
-        GR_LOG_WARN(d_logger, "Got unknown PDU vector type, dropping");
+        d_logger->warn("Got unknown PDU vector type, dropping");
     }
 
 }
@@ -152,7 +152,7 @@ void pdu_slice_impl::set_slice(std::string slice)
     // Make sure slice notation begins and ends in brackets
     if (d_slice.find("[") !=0 ||
         d_slice.find("]") != d_slice.size()-1) {
-            GR_LOG_ERROR(d_logger, "received invalid slice notation");
+            d_logger->error("received invalid slice notation");
             throw std::runtime_error("");
     }
 
@@ -173,7 +173,7 @@ void pdu_slice_impl::set_slice(std::string slice)
                     d_start_index = stoi(start_token);
                 }
                 catch (const std::exception&) {
-                    GR_LOG_ERROR(d_logger, "received invalid start index for slice");
+                    d_logger->error("received invalid start index for slice");
                     throw std::runtime_error("");
                 }
             }
@@ -190,7 +190,7 @@ void pdu_slice_impl::set_slice(std::string slice)
                     d_stop_index = stoi(stop_token);
                 }
                 catch (const std::exception&) {
-                    GR_LOG_ERROR(d_logger, "received invalid stop index for slice");
+                    d_logger->error("received invalid stop index for slice");
                     throw std::runtime_error("");
                 }
                 // set stride size to default
@@ -210,7 +210,7 @@ void pdu_slice_impl::set_slice(std::string slice)
                     d_start_index = stoi(start_token);
                 }
                 catch (const std::exception&) {
-                    GR_LOG_ERROR(d_logger, "received invalid start index for slice");
+                    d_logger->error("received invalid start index for slice");
                     throw std::runtime_error("");
                 }
             }
@@ -227,7 +227,7 @@ void pdu_slice_impl::set_slice(std::string slice)
                     d_stop_index = stoi(stop_token);
                 }
                 catch (const std::exception&) {
-                    GR_LOG_ERROR(d_logger, "received invalid stop index for slice");
+                    d_logger->error("received invalid stop index for slice");
                     throw std::runtime_error("");
                 }
             }
@@ -243,18 +243,18 @@ void pdu_slice_impl::set_slice(std::string slice)
                     d_stride_size = stoi(stride_token);
                 }
                 catch (const std::exception&) {
-                    GR_LOG_ERROR(d_logger, "received invalid stride size for slice");
+                    d_logger->error("received invalid stride size for slice");
                     throw std::runtime_error("");
                 }
                 // stride size cannot be 0
                 if (d_stride_size == 0) {
-                    GR_LOG_ERROR(d_logger, "received zero stride size for slice");
+                    d_logger->error("received zero stride size for slice");
                     throw std::runtime_error("");
             }
             break;
         // if number of colons is not 1 or 2, notation is invalid
         default :
-                GR_LOG_ERROR(d_logger, "received invalid slice notation");
+                d_logger->error("received invalid slice notation");
                 throw std::runtime_error("");
         }
     }

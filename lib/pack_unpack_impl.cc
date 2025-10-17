@@ -13,8 +13,8 @@
 
 #include "pack_unpack_impl.h"
 #include <gnuradio/io_signature.h>
-#include <fmt/format.h>  // Add fmt header
-#include "pmt_formatters.h"
+
+
 
 namespace gr {
 namespace pdu_utils {
@@ -38,13 +38,13 @@ pack_unpack_impl::pack_unpack_impl(uint32_t mode, uint32_t bit_order)
     message_port_register_out(PMTCONSTSTR__pdu_out());
 
     if (d_mode == MODE_UNPACK_BYTE) {
-        GR_LOG_INFO(d_logger, "PDU Pack/Unpack instantiated in UNPACK BYTE mode");
+        d_logger->info("PDU Pack/Unpack instantiated in UNPACK BYTE mode");
     } else if (d_mode == MODE_PACK_BYTE) {
-        GR_LOG_INFO(d_logger, "PDU Pack/Unpack instantiated in PACK BYTE mode");
+        d_logger->info("PDU Pack/Unpack instantiated in PACK BYTE mode");
     } else if (d_mode == MODE_BITSWAP_BYTE) {
-        GR_LOG_INFO(d_logger, "PDU Pack/Unpack instantiated in BITSWAP mode");
+        d_logger->info("PDU Pack/Unpack instantiated in BITSWAP mode");
     } else {
-        GR_LOG_WARN(d_logger, "PDU Pack/Unpack instantiated in UNKNOWN mode");
+        d_logger->warn("PDU Pack/Unpack instantiated in UNKNOWN mode");
     }
 }
 
@@ -58,7 +58,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -68,7 +68,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
     pmt::pmt_t v_data = pmt::cdr(pdu);
 
     if (!(is_dict(meta) && pmt::is_uniform_vector(v_data))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-PDU)");
+        d_logger->info("received unexpected PMT (non-PDU)");
         return;
     }
 
@@ -81,7 +81,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
          * input can be any byte vector.
          */
         if (!pmt::is_u8vector(v_data)) {
-            GR_LOG_ERROR(d_logger, "PDU vector is not uint8, dropping");
+            d_logger->error("PDU vector is not uint8, dropping");
             return;
         }
         const std::vector<uint8_t> data = pmt::u8vector_elements(v_data);
@@ -115,7 +115,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
          * Values other than zero will map to '1'.
          */
         if (!pmt::is_u8vector(v_data)) {
-            GR_LOG_ERROR(d_logger, "PDU vector is not uint8, dropping");
+            d_logger->error("PDU vector is not uint8, dropping");
             return;
         }
 
@@ -165,7 +165,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
          */
 
         if (!pmt::is_u8vector(v_data)) {
-            GR_LOG_ERROR(d_logger, "PDU vector is not uint8, dropping");
+            d_logger->error("PDU vector is not uint8, dropping");
             return;
         }
 
@@ -184,7 +184,7 @@ void pack_unpack_impl::handle_msg(pmt::pmt_t pdu)
         /*
          * All other modes are undefined... print a warning and drop PDU
          */
-        GR_LOG_WARN(d_logger, fmt::format("Unknown block mode {}", d_mode));
+        d_logger->warn("Unknown block mode {}", d_mode);
     }
 }
 

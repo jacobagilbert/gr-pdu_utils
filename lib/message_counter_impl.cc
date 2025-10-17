@@ -13,7 +13,7 @@
 
 #include "message_counter_impl.h"
 #include <gnuradio/io_signature.h>
-#include <fmt/format.h>  // Add fmt header
+
 
 namespace gr {
 namespace pdu_utils {
@@ -48,12 +48,10 @@ message_counter_impl::~message_counter_impl() {}
 /*
  * This goes here as print statements in the destructor are usually not
  * shown - message is essential to blocks function and will be printed
- * with or without GR_LOG
  */
 bool message_counter_impl::stop()
 {
-    GR_LOG_INFO(d_logger,
-               fmt::format("Message Counter '{}' got {} messages", d_name, d_ctr));
+    d_logger->info("Message Counter '{}' got {} messages", d_name, d_ctr);
     return true;
 }
 

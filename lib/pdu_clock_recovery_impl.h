@@ -13,8 +13,18 @@
 #include <gnuradio/fft/fft.h>
 #include <gnuradio/pdu_utils/constants.h>
 #include <gnuradio/pdu_utils/pdu_clock_recovery.h>
+#include <fmt/core.h>
 
 const int LUT_SIZE = 256;
+
+// Add formatter for window_type enum
+template <>
+struct fmt::formatter<gr::pdu_utils::window_type> : fmt::formatter<int> {
+    auto format(const gr::pdu_utils::window_type& type, fmt::format_context& ctx) const {
+        // Convert the enum to integer for formatting
+        return fmt::formatter<int>::format(static_cast<int>(type), ctx);
+    }
+};
 
 namespace gr {
 namespace pdu_utils {
@@ -195,7 +205,7 @@ private:
                                       const float symbol_freq,
                                       const float phase,
                                       const int offset);
-
+                                     
 }; // end class pdu_clock_recovery_impl
 
 } // namespace pdu_utils

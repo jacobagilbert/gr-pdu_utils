@@ -55,7 +55,7 @@ void pdu_rotate_impl::pdu_handler(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -65,7 +65,7 @@ void pdu_rotate_impl::pdu_handler(pmt::pmt_t pdu)
 
     // check PMT vector type
     if (!pmt::is_c32vector(v_data)) {
-        GR_LOG_WARN(d_logger, "Failed to rotate the PDU because it is not a c32 vector");
+        d_logger->warn("Failed to rotate the PDU because it is not a c32 vector");
         return;
     }
 

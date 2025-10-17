@@ -50,7 +50,7 @@ void pdu_complex_to_mag2_impl::handle_pdu(pmt::pmt_t pdu)
 
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -58,7 +58,7 @@ void pdu_complex_to_mag2_impl::handle_pdu(pmt::pmt_t pdu)
 
     // make sure PDU data is c32
     if (!(pmt::is_c32vector(samples))) {
-        GR_LOG_NOTICE(d_logger, "data is not c32 vector, returning");
+        d_logger->info("data is not c32 vector, returning");
         return;
     }
 

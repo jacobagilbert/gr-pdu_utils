@@ -13,8 +13,8 @@
 
 #include "upsample_impl.h"
 #include <gnuradio/io_signature.h>
-#include <fmt/format.h>
-#include "pmt_formatters.h"
+
+
 
 namespace gr {
 namespace pdu_utils {
@@ -52,7 +52,7 @@ void upsample_impl::handle_msg(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, fmt::format("received unexpected PMT (non-pair)"));
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -68,7 +68,7 @@ void upsample_impl::handle_msg(pmt::pmt_t pdu)
     pmt::pmt_t v_data = pmt::cdr(pdu);
 
     if (!(is_dict(meta) && pmt::is_uniform_vector(v_data))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-PDU)");
+        d_logger->info("received unexpected PMT (non-PDU)");
         return;
     }
 
@@ -301,12 +301,12 @@ void upsample_impl::handle_msg(pmt::pmt_t pdu)
                          pmt::cons(meta, pmt::init_c32vector(output.size(), output)));
     } else if (pmt::is_c64vector(v_data)) {
         // TODO: support this...
-        GR_LOG_NOTICE(d_logger, "PDU of type complex double not supported, dropped");
+        d_logger->info("PDU of type complex double not supported, dropped");
         return;
 
     } else {
         // drop message and return
-        GR_LOG_NOTICE(d_logger, "unknown PDU vector type, dropped");
+        d_logger->info("unknown PDU vector type, dropped");
         return;
     }
     return;

@@ -75,7 +75,7 @@ void pdu_preamble_impl::handle_msg(pmt::pmt_t pdu)
 {
     // make sure PDU data is formed properly
     if (!(pmt::is_pair(pdu))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-pair)");
+        d_logger->info("received unexpected PMT (non-pair)");
         return;
     }
 
@@ -86,7 +86,7 @@ void pdu_preamble_impl::handle_msg(pmt::pmt_t pdu)
 
     // make sure PDU data is formed properly
     if (!(is_dict(meta) && pmt::is_uniform_vector(v_data))) {
-        GR_LOG_NOTICE(d_logger, "received unexpected PMT (non-PDU)");
+        d_logger->info("received unexpected PMT (non-PDU)");
         return;
     }
 
@@ -95,7 +95,7 @@ void pdu_preamble_impl::handle_msg(pmt::pmt_t pdu)
 
     // make sure data is u8 vector
     if (!(pmt::is_u8vector(v_data))) {
-        GR_LOG_NOTICE(d_logger, "PDU Preamble: PDU data is not uint8!");
+        d_logger->info("PDU Preamble: PDU data is not uint8!");
         return;
     }
 
